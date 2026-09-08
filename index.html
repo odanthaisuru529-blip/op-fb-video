@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OP FB Video Downloader - Download Facebook Videos</title>
+    <meta name="description" content="OP FB Video Downloader provides a simple and responsive interface for downloading Facebook videos you are authorized to save.">
+    <meta name="keywords" content="Facebook video downloader, FB video download, download Facebook videos, free video downloader">
+    <meta name="author" content="OP Web Developer">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="OP FB Video Downloader - Download Facebook Videos">
+    <meta property="og:description" content="Download Facebook videos quickly and easily with OP FB Video Downloader.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://opfbdownloader.com">
+    <meta property="og:image" content="https://opfbdownloader.com/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OP FB Video Downloader">
+    <meta name="twitter:description" content="Download Facebook videos quickly and easily.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📥</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo" aria-label="OP FB Video Downloader Home">
+                <span class="logo-icon">📥</span>
+                <span class="logo-text">OP FB Video <span class="logo-accent">Downloader</span></span>
+            </a>
+
+            <nav class="nav" id="nav" aria-label="Main navigation">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <span class="theme-icon light">☀️</span>
+                    <span class="theme-icon dark">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg" aria-hidden="true">
+            <div class="hero-shape shape-1"></div>
+            <div class="hero-shape shape-2"></div>
+            <div class="hero-shape shape-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">OP FB Video Downloader</h1>
+                <p class="hero-subtitle">Download Facebook videos quickly and easily.</p>
+                <p class="hero-description">
+                    Paste any Facebook video URL below and get your video in seconds. 
+                    Supports multiple qualities and works on all devices.
+                </p>
+
+                <!-- Download Form -->
+                <div class="download-form">
+                    <div class="input-wrapper">
+                        <input 
+                            type="url" 
+                            id="videoUrl" 
+                            class="url-input" 
+                            placeholder="Paste Facebook video URL here..."
+                            autocomplete="off"
+                            aria-label="Facebook video URL"
+                        >
+                        <button class="paste-btn" id="pasteBtn" aria-label="Paste from clipboard">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Paste
+                        </button>
+                    </div>
+                    <button class="download-btn" id="downloadBtn">
+                        <span class="btn-text">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download Video
+                        </span>
+                        <span class="btn-loader" hidden>
+                            <span class="spinner"></span>
+                            Processing...
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage" role="alert" hidden>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span id="errorText"></span>
+                </div>
+
+                <!-- Result Card -->
+                <div class="result-card" id="resultCard" hidden>
+                    <div class="result-header">
+                        <div class="video-thumbnail">
+                            <img id="videoThumbnail" src="" alt="Video thumbnail" loading="lazy">
+                            <div class="play-overlay">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title" id="videoTitle">Video Title</h3>
+                            <p class="video-meta" id="videoMeta">Facebook Video</p>
+                        </div>
+                    </div>
+                    <div class="result-body">
+                        <label class="quality-label" for="qualitySelect">Select Quality:</label>
+                        <div class="quality-selector">
+                            <select id="qualitySelect" class="quality-select" aria-label="Video quality">
+                                <option value="1080">1080p — HD (Highest Quality)</option>
+                                <option value="720" selected>720p — HD (Recommended)</option>
+                                <option value="480">480p — SD</option>
+                                <option value="360">360p — Low</option>
+                            </select>
+                        </div>
+                        <div class="result-actions">
+                            <button class="action-btn primary" id="downloadVideoBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Download MP4
+                            </button>
+                            <button class="action-btn secondary" id="copyLinkBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Copy Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Simple Process</span>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Get your Facebook video in three easy steps</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </div>
+                    <h3 class="step-title">Copy Link</h3>
+                    <p class="step-description">Copy the URL of the Facebook video you want to download from your browser or the Facebook app.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </div>
+                    <h3 class="step-title">Paste Link</h3>
+                    <p class="step-description">Paste the URL into the input field above and click the Download button to process the video.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </div>
+                    <h3 class="step-title">Download</h3>
+                    <p class="step-description">Choose your preferred video quality and download the video to your device instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Why Choose Us</span>
+                <h2 class="section-title">Features</h2>
+                <p class="section-subtitle">Everything you need for a seamless downloading experience</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Fast Processing</h3>
+                    <p class="feature-description">Our optimized servers process your video requests in seconds, not minutes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Mobile Friendly</h3>
+                    <p class="feature-description">Works perfectly on smartphones, tablets, and any mobile browser.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3 class="feature-title">Multiple Video Qualities</h3>
+                    <p class="feature-description">Choose from 360p up to 1080p HD quality based on your needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy Focused</h3>
+                    <p class="feature-description">We don't store your videos or browsing history. Your privacy matters.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">Works on Desktop & Mobile</h3>
+                    <p class="feature-description">Seamless experience across all devices and screen sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Simple & Easy Interface</h3>
+                    <p class="feature-description">No complicated settings. Just paste, click, and download.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Got Questions?</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Find answers to common questions about our service</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I download a Facebook video?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Simply copy the URL of the Facebook video you want to download, paste it into the input field on our homepage, and click "Download Video." Select your preferred quality and the download will begin automatically.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Is OP FB Video Downloader free?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! OP FB Video Downloader is completely free to use. There are no hidden fees, subscriptions, or premium tiers. Download as many videos as you need.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Can I use it on my phone?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! Our website is fully responsive and works great on all mobile devices including iPhones, Android phones, and tablets. Just open your mobile browser and start downloading.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What video qualities are supported?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We support multiple video qualities including 360p, 480p, 720p HD, and 1080p Full HD. The available qualities depend on the original video uploaded to Facebook.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Why isn't my video downloading?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>This could be due to several reasons: the video URL might be invalid, the video might be private or restricted, Facebook may have changed their API, or there could be a temporary server issue. Make sure you're using a public Facebook video URL and try again.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Where are downloaded videos saved?</span>
+                        <span class="faq-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Downloaded videos are saved to your device's default Downloads folder. On most computers, you can find them in the Downloads directory. On mobile devices, check your Files app or Gallery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-badge">About Us</span>
+                    <h2 class="section-title">About OP FB Video Downloader</h2>
+                    <p>
+                        OP FB Video Downloader is designed to provide a simple, clean, and efficient interface for downloading Facebook videos that you are authorized to save. We believe that accessing your own content should be straightforward and hassle-free.
+                    </p>
+                    <p>
+                        Our mission is to deliver a fast, reliable, and user-friendly tool that works across all devices. We prioritize your privacy and never store your downloaded videos or personal data.
+                    </p>
+                    <div class="about-branding">
+                        <span class="branding-label">Developed by</span>
+                        <span class="branding-name">OP Web Developer</span>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="about-card">
+                        <div class="about-card-icon">💡</div>
+                        <h3>Our Mission</h3>
+                        <p>To make video downloading accessible, fast, and secure for everyone.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-card-icon">🛡️</div>
+                        <h3>Our Promise</h3>
+                        <p>No ads, no tracking, no data collection. Just a clean tool that works.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-icon">📥</span>
+                        <span class="logo-text">OP FB Video <span class="logo-accent">Downloader</span></span>
+                    </a>
+                    <p class="footer-description">
+                        The easiest way to download Facebook videos. Fast, free, and works on all devices.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#" onclick="alert('Privacy Policy coming soon'); return false;">Privacy Policy</a></li>
+                        <li><a href="#" onclick="alert('Terms of Service coming soon'); return false;">Terms of Service</a></li>
+                        <li><a href="#" onclick="alert('Contact page coming soon'); return false;">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 OP Web Developer. All rights reserved.</p>
+                <p class="disclaimer">Only download content that you have permission to download and use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+        <span class="toast-icon" id="toastIcon">✓</span>
+        <span class="toast-message" id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
